@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Bakery.Web.ApiControllers
 {
-    [Authorize]
+    
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
