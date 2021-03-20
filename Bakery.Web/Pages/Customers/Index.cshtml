@@ -1,0 +1,65 @@
+﻿@page
+@model Bakery.Web.Pages.Customers.IndexModel
+@{
+    ViewData["Title"] = "Übersicht";
+}
+
+<h1>Übersicht</h1>
+
+<form method="post" asp-page-handler="Search">
+    <div class="form-group">
+        @Html.DisplayNameFor(m => m.FilterLastname)
+        <input asp-for="FilterLastname" />
+        <button type="submit" class="btn btn-primary">Suchen</button>
+        <span asp-validation-for="FilterLastname"></span>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Customers[0].Lastname)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Customers[0].Firstname)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Customers[0].Username)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Customers[0].IsAdmin)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Customers[0].RegisteredSince)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Customers)
+        {
+            <tr>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Firstname)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.IsAdmin)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.RegisteredSince)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Bearbeiten</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

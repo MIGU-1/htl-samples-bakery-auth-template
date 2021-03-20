@@ -1,0 +1,52 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Order Overview";
+}
+
+<h1>Order Overview</h1>
+@if (Model.IsAdmin)
+{
+    <form method="post" asp-page-handler="Search">
+        <div class="form-group">
+            @Html.DisplayNameFor(m => m.FilterLastName)
+            <input asp-for="FilterLastName" />
+            <button type="submit" class="btn btn-primary">Suchen</button>
+            <span asp-validation-for="FilterLastName"></span>
+        </div>
+    </form>
+}
+    <p>
+        <a class="btn btn-primary" asp-page="./Create">Neue Bestellung anlegen</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Bestellnummer
+                </th>
+                <th>
+                    Kunde
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Orders)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderNr)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.CustomerName)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.OrderId">Bearbeiten</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

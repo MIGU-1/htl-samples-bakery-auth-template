@@ -1,0 +1,45 @@
+﻿<controls:MetroWindow x:Class="Bakery.Wpf.Views.EditProductWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:Bakery.Wpf.Views"
+        mc:Ignorable="d"
+        Title="Produkt" Height="210" Width="350" MinHeight="210">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Style="{StaticResource FormCaptionStyle}" Grid.Row="0" Content="{Binding TitleString}"></Label>
+        <Grid Margin="10" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="100" Width="30*"/>
+                <ColumnDefinition Width="70*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0">Produktnr.:</Label>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding EditProductNr}"></TextBox>
+            <Label Grid.Row="1" Grid.Column="0">Produktname:</Label>
+            <TextBox Grid.Row="1" Grid.Column="1" 
+                     Text="{Binding EditName, UpdateSourceTrigger=PropertyChanged}">
+            </TextBox>
+            <Label Grid.Row="2" Grid.Column="0">Preis:</Label>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding EditPrice, UpdateSourceTrigger=LostFocus}"></TextBox>
+
+        </Grid>
+        <StackPanel  Grid.Row="2" Orientation="Horizontal">
+            <Button Margin="5"  Command="{Binding CmdSave}">Speichern</Button>
+            <Button Margin="5"  Command="{Binding CmdUndo}">Rückgängig</Button>
+            <TextBlock Margin="5" TextAlignment="Left" VerticalAlignment="Center"
+                       Style="{StaticResource  ErrorCaptionStyle}" Text="{Binding DbError}"></TextBlock>
+        </StackPanel>
+    </Grid>
+</controls:MetroWindow>
