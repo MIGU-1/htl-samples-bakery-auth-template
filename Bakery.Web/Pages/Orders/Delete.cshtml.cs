@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Bakery.Web.Pages.Orders
 {
-    [Authorize]
     public class DeleteModel : PageModel
     {
         private readonly IUnitOfWork _uow;

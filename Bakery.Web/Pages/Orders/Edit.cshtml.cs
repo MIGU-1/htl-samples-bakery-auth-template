@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace Bakery.Web.Pages.Orders
 {
-    [Authorize]
     public class EditModel : PageModel
     {
         private readonly IUnitOfWork _uow;

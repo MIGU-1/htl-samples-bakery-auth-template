@@ -9,11 +9,9 @@ namespace Bakery.Web.Pages.Auth
 {
     public class LoginModel : PageModel
     {
-        
-        [BindProperty]
         public CredentialDto Credentials { get; set; }
 
-        public Task<IActionResult> OnPostAsync()
+        public IActionResult OnPostAsync()
         {
             return Page();
         }

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace SchoolLocker.Web.Pages.Customers
 {
-    [Authorize(Roles = "Admin")]
     public class DetailsModel : PageModel
     {
         private readonly IUnitOfWork _unitOfWork;

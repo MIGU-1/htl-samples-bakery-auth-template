@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bakery.Core.Entities
 {
-    public partial class Customer : IdentityUser<int>
+    public partial class Customer : EntityObject
     {
         [DisplayName("Kunden Nr.")]
         [Required]
@@ -33,7 +33,8 @@ namespace Bakery.Core.Entities
         public Customer()
         {
             RegisteredSince = DateTime.Now;
-            SecurityStamp = Guid.NewGuid().ToString("D");
+            
+            // TODO: Initialize SecurityStamp!
         }
     }
 }
