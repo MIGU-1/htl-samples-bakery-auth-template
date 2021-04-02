@@ -14,6 +14,7 @@ using System;
 
 namespace Bakery.Web.ApiControllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
@@ -29,26 +30,41 @@ namespace Bakery.Web.ApiControllers
             _userManager = userManager;
         }
 
-        
+
         /// <summary>
         /// Retrievs a list of orders.
         /// If the user has the admin role then all the orders are retrieved.
         /// If the user does not has the admin role then only the personal order items are retrieved.
         /// </summary>
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         // GET: api/Orders
-        public ActionResult<IEnumerable<OrderWithItemsDto>> GetOrders()
+        public async Task<ActionResult<IEnumerable<OrderWithItemsDto>>> GetOrders()
         {
-            throw new NotImplementedException();
+            string userName = HttpContext
+                .User
+                .Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.Email)?
+                .Value;
+
+            var customer = await _userManager.FindByNameAsync(userName);
+            if (await _userManager.IsInRoleAsync(customer, "Admin")
+            {
+                return Ok(await _uow.Orders.GetAllAsync());
+            }
+            else
+            {
+                return Ok(await _uow.Orders.GetAllWithItemsAsync(customer.Id));
+            }
         }
 
-        
         /// <summary>
         /// Retrieves a list of orders for a specific customer.
         /// Admin role is needed to perform this action!
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpGet("ordersByCustomerId/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -56,9 +72,16 @@ namespace Bakery.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         // GET: api/Orders/ordersByCustomerId/5
-        public ActionResult<IEnumerable<OrderWithItemsDto>> GetOrdersByCustomer(int id)
+        public async Task<ActionResult<IEnumerable<OrderWithItemsDto>>> GetOrdersByCustomer(int id)
         {
-            throw new NotImplementedException();
+            var orders = await _uow.Orders.GetOrdersByCustomer(id);
+
+            if (orders == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(orders);
         }
 
     }

@@ -46,7 +46,10 @@ namespace Bakery.Web
 
             services.AddIdentity<Customer, IdentityRole<int>>(config =>
             {
-                // TODO: configure Password
+                config.Password.RequiredLength = 4;
+                config.Password.RequireNonAlphanumeric = true;
+                config.Password.RequireDigit = true;
+                config.Password.RequireUppercase = true;
             })
               .AddEntityFrameworkStores<ApplicationDbContext>()
               .AddDefaultTokenProviders();

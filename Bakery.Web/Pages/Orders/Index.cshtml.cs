@@ -12,22 +12,48 @@ using System.Threading.Tasks;
 
 namespace Bakery.Web.Pages.Orders
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         [Display(Name = "Nachname")]
+        [BindProperty]
         public string FilterLastName { get; set; }
-        
+        [BindProperty]
         public bool IsAdmin { get; set; }
-
+        [BindProperty]
         public IEnumerable<OrderDto> Orders { get; set; }
+        
+        private readonly UserManager<Customer> _userManager;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public IActionResult OnGetAsync()
+        public IndexModel(UserManager<Customer> userManager, IUnitOfWork unitOfWork)
         {
+            _userManager = userManager;
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<IActionResult> OnGetAsync()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            IsAdmin = await _userManager.IsInRoleAsync(user,"Admin");
+
+            if(IsAdmin)
+            {
+                Orders = await _unitOfWork.Orders.GetAllAsync();
+            }
+            else
+            {
+                Orders = await _unitOfWork.Orders.GetOrdersByCustomer(user.Id);
+            }
+
             return Page();
         }
 
-        public IActionResult OnPostSearch()
+        public async Task<IActionResult> OnPostSearch()
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            IsAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+            Orders = await _unitOfWork.Orders.GetFilteredForCustomers(FilterLastName);
             return Page();
         }
     }

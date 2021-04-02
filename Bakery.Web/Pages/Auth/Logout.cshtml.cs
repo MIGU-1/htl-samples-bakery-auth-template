@@ -8,9 +8,17 @@ namespace Bakery.Web.Pages.Auth
 {
     public class LogoutModel : PageModel
     {
-        public ActionResult OnPostAsync()
+        private readonly SignInManager<Customer> _signInManager;
+
+        public LogoutModel(SignInManager<Customer> signInManager)
         {
-            return Page();
+            _signInManager = signInManager;
+        }
+
+        public async Task<ActionResult> OnPostAsync()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToPage("/Index");
         }
     }
 }

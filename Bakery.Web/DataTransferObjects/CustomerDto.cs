@@ -10,11 +10,13 @@ namespace Bakery.Web.DataTransferObjects
         [DisplayName("Vorname")]
         [MaxLength(20, ErrorMessage = "Der {0} darf max. aus {1} Zeichen bestehen!")]
         [MinLength(2, ErrorMessage = "Der {0} muss mind. aus {1} Zeichen bestehen!")]
+        [Required]
         public string Firstname { get; set; }
 
         [DisplayName("Nachname")]
         [MaxLength(20, ErrorMessage = "Der {0} darf max. aus {1} Zeichen bestehen!")]
         [MinLength(2, ErrorMessage = "Der {0} muss mind. aus {1} Zeichen bestehen!")]
+        [Required]
         public string Lastname { get; set; }
 
         [EmailAddress]

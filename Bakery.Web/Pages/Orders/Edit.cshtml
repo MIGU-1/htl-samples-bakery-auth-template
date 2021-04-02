@@ -66,7 +66,10 @@
           @Html.DisplayFor(modelItem => item.Amount)
         </td>
         <td>
-          <a asp-page-handler="DeleteOrderItem" asp-route-orderId="@Model.Order.OrderId" asp-route-orderItemId="@item.Id">Entfernen</a>
+            <a asp-page-handler="DeleteOrderItem" 
+             asp-route-orderId="@Model.Order.OrderId" 
+             asp-route-orderItemId="@item.Id">Entfernen
+            </a>
         </td>
       </tr>
     }

@@ -6,8 +6,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bakery.Core.Entities
 {
-    public partial class Customer : EntityObject
+    public partial class Customer : IdentityUser<int>
     {
+        public Customer() : base()
+        {
+            RegisteredSince = DateTime.Now;
+            SecurityStamp = Guid.NewGuid().ToString("D");
+        }
+
         [DisplayName("Kunden Nr.")]
         [Required]
         public string CustomerNr { get; set; }
@@ -30,11 +36,5 @@ namespace Bakery.Core.Entities
 
         public override string ToString() => $"{Firstname} {Lastname}";
 
-        public Customer()
-        {
-            RegisteredSince = DateTime.Now;
-            
-            // TODO: Initialize SecurityStamp!
-        }
     }
 }

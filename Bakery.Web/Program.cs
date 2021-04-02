@@ -19,7 +19,13 @@ namespace Bakery.Web
                 var userManager = scope.ServiceProvider.GetService<UserManager<Customer>>();
                 var roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole<int>>>();
 
-                // TODO: add admin@htl.at user (Role "Admin") if not exists.
+                if(!userManager.Users.Any(u => u.UserName == "admin@itag.at"))
+                {
+                    await roleManager.CreateAsync(new IdentityRole<int>("Admin"));
+                    var admin = new Customer { CustomerNr = "007" ,Firstname = "Admin", Lastname = "Admin", UserName = "admin@itag.at", Email = "Admin@itag.at" };
+                    await userManager.CreateAsync(admin, "Admin#123");
+                    await userManager.AddToRoleAsync(admin, "Admin");
+                }
             }
 
             host.Run();

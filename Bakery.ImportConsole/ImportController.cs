@@ -33,7 +33,7 @@ namespace Bakery.ImportConsole
                     })
                 .Select(c =>
                 {
-                    // TODO: Initialize "UserName"
+                    c.UserName = $"{c.Firstname}.{c.Lastname}@itag.at".ConvertUmlaute().ToLower();
                     return c;
                 })
                 .ToList();

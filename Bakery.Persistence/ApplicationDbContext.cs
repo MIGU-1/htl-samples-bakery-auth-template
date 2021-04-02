@@ -8,8 +8,14 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Bakery.Persistence
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext 
+        : IdentityDbContext<Customer, IdentityRole<int>, int>
     {
+        public ApplicationDbContext() { }
+        public ApplicationDbContext(
+            DbContextOptions<ApplicationDbContext> options) 
+            : base(options) { }
+
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Product> Products { get; set; }

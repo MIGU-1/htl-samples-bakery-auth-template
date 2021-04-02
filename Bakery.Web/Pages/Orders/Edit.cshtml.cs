@@ -13,16 +13,12 @@ namespace Bakery.Web.Pages.Orders
     public class EditModel : PageModel
     {
         private readonly IUnitOfWork _uow;
-
-        public IEnumerable<ProductDto> Products { get; set; }
-
         [BindProperty]
         public OrderWithItemsDto Order { get; set; }
-
         [BindProperty]
         [Required(ErrorMessage = "Sie müssen ein Produkt auswählen!")]
         public int NewProductId { get; set; }
-
+        public IEnumerable<ProductDto> Products { get; set; }
         [BindProperty]
         [Required(ErrorMessage = "Sie müssen die Anzahl festlegen!")]
         [Range(1, 5000, ErrorMessage = "Die Anzahl muss zwischen {1} und {2} Stück liegen!")]
